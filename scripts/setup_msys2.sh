@@ -13,6 +13,7 @@ pacman -Syuu --noconfirm
 pacman -S --noconfirm --needed \
   mingw-w64-ucrt-x86_64-gcc mingw-w64-ucrt-x86_64-cmake mingw-w64-ucrt-x86_64-ninja \
   mingw-w64-ucrt-x86_64-boost mingw-w64-ucrt-x86_64-eigen3 mingw-w64-ucrt-x86_64-suitesparse \
-  mingw-w64-ucrt-x86_64-opencv mingw-w64-ucrt-x86_64-yaml-cpp mingw-w64-ucrt-x86_64-openblas
+  mingw-w64-ucrt-x86_64-opencv mingw-w64-ucrt-x86_64-yaml-cpp mingw-w64-ucrt-x86_64-openblas \
+  mingw-w64-ucrt-x86_64-qt6-base
 echo "SETUP_EXIT=$?"
 } 2>&1 | tee "$LOG"

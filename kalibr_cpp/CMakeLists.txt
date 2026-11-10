@@ -244,23 +244,28 @@ target_link_libraries(kalibr_compare_euroc kalibr_app_common)
 
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/PlatformCompat.cmake)
 # ---------------------------------------------------- runtime DLL bundling ---
-# MinGW executables depend on ~120 DLLs (Boost, OpenCV, SuiteSparse, GCC runtime).
-# Copy them next to the .exe after each build so the tools run from any shell,
-# independent of which (if any) MSYS2 installation is on PATH.
+# MinGW executables depend on ~120 DLLs (Boost, OpenCV, Qt6 via opencv_highgui,
+# SuiteSparse, GCC runtime). Copy them next to the .exe on every build so the
+# tools run from any shell, independent of which (if any) MSYS2 is on PATH.
+# The step fails if a required DLL cannot be found (missing package).
 option(KALIBR_BUNDLE_DLLS "Copy runtime DLLs next to the executables (MinGW)" ON)
 if(MINGW AND KALIBR_BUNDLE_DLLS)
   get_filename_component(_kalibr_tool_dir "${CMAKE_CXX_COMPILER}" DIRECTORY)
   if(NOT CMAKE_OBJDUMP)
     find_program(CMAKE_OBJDUMP objdump HINTS "${_kalibr_tool_dir}" REQUIRED)
   endif()
+  set(_kalibr_bundle_cmds)
   foreach(_t kalibr_calibrate_cameras kalibr_calibrate_imu_camera kalibr_compare_euroc)
-    add_custom_command(TARGET ${_t} POST_BUILD
+    list(APPEND _kalibr_bundle_cmds
       COMMAND ${CMAKE_COMMAND} "-DEXE=$<TARGET_FILE:${_t}>"
               "-DSEARCH_DIRS=${_kalibr_tool_dir}" "-DOBJDUMP=${CMAKE_OBJDUMP}"
-              -P "${CMAKE_CURRENT_SOURCE_DIR}/cmake/CopyRuntimeDlls.cmake"
-      COMMENT "Bundling runtime DLLs for ${_t}"
-      VERBATIM)
+              -P "${CMAKE_CURRENT_SOURCE_DIR}/cmake/CopyRuntimeDlls.cmake")
   endforeach()
+  add_custom_target(kalibr_bundle_dlls ALL ${_kalibr_bundle_cmds}
+    COMMENT "Bundling runtime DLLs next to the executables"
+    VERBATIM)
+  add_dependencies(kalibr_bundle_dlls
+    kalibr_calibrate_cameras kalibr_calibrate_imu_camera kalibr_compare_euroc)
 endif()
 
 install(TARGETS kalibr_calibrate_cameras kalibr_calibrate_imu_camera kalibr_compare_euroc

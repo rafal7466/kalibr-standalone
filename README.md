@@ -66,6 +66,7 @@ All dependencies come from MSYS2's **UCRT64** environment:
 | `openblas` | BLAS/LAPACK for SuiteSparse | 0.3.34 |
 | `opencv` | image I/O, corner refinement | 5.0 (4.x also supported) |
 | `yaml-cpp` | reading/writing Kalibr YAML files | 0.9 |
+| `qt6-base` | runtime dependency of OpenCV's `highgui` module (used by Kalibr's target detectors) | 6.x |
 
 Not needed: ROS, catkin, Python, NumPy, wxPython, Docker, WSL or Ubuntu.
 
@@ -80,10 +81,13 @@ pacman -Syuu        # run twice if the first run asks to restart the shell
 pacman -S --needed \
   mingw-w64-ucrt-x86_64-gcc   mingw-w64-ucrt-x86_64-cmake  mingw-w64-ucrt-x86_64-ninja \
   mingw-w64-ucrt-x86_64-boost mingw-w64-ucrt-x86_64-eigen3 mingw-w64-ucrt-x86_64-suitesparse \
-  mingw-w64-ucrt-x86_64-opencv mingw-w64-ucrt-x86_64-yaml-cpp mingw-w64-ucrt-x86_64-openblas
+  mingw-w64-ucrt-x86_64-opencv mingw-w64-ucrt-x86_64-yaml-cpp mingw-w64-ucrt-x86_64-openblas \
+  mingw-w64-ucrt-x86_64-qt6-base
 ```
 
-(`scripts/setup_msys2.sh` does exactly this, non-interactively.)
+(`scripts/setup_msys2.sh` does exactly this, non-interactively.) The download is about 0.5 GB (≈ 3 GB installed). If a mirror is slow or returns an error, pacman switches to another mirror automatically; if the command still stops with a download error, simply run it again.
+
+> **Do not skip `qt6-base`.** MSYS2's OpenCV is built with Qt; without it the build still succeeds, but the bundling step stops with an error listing the missing `Qt6*.dll` files (before this check existed, the executables simply refused to start).
 
 ## Build
 
@@ -120,7 +124,7 @@ The tools read the **EuRoC / ASL folder format** instead of rosbags:
 └── imu0/data.csv, imu0/sensor.yaml
 ```
 
-The results in this repository were produced with the EuRoC **calibration datasets** (`cam_april`, `imu_april`, `cam_checkerboard`), available from the [EuRoC MAV dataset page](https://projects.asl.ethz.ch/datasets/euroc-mav/). Download the ASL-format `.zip` files and extract them so that you get:
+The results in this repository were produced with the EuRoC **calibration datasets** (`cam_april`, `imu_april`, `cam_checkerboard`). All EuRoC files are hosted on the ETH Research Collection ([doi:10.3929/ethz-b-000690084](https://doi.org/10.3929/ethz-b-000690084), linked from the [EuRoC MAV dataset page](https://projects.asl.ethz.ch/datasets/euroc-mav/)): download **"Calibration Datasets" (ZIP, ≈ 4.2 GB)**, extract it into `dataset/`, and extract any per-sequence `.zip` files it contains in place, so that you get:
 
 ```
 dataset/calibration_datasets/cam_april/{april_6x6.yaml, mav0/}
