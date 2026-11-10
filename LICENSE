@@ -3,14 +3,6 @@ BSD 3-Clause License
 Copyright (c) 2026, Mohammadreza (github.com/rafal7466)
 All rights reserved.
 
-Portions of kalibr_cpp/ are C++ ports of the Python front-end of Kalibr and are
-derived from:
-Copyright (c) 2014, Paul Furgale, Jérôme Maye and Jörn Rehder, Autonomous Systems Lab,
-                    ETH Zurich, Switzerland
-Copyright (c) 2014, Thomas Schneider, Skybotix AG, Switzerland
-The unmodified upstream Kalibr sources in kalibr-master/ remain under their own
-license, see kalibr-master/LICENSE.
-
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
 

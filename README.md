@@ -267,7 +267,7 @@ Residuals: reprojection 0.44 px (mean), gyroscope 0.0026 rad/s, accelerometer 0.
 
 ## Acknowledgements and license
 
-This repository is released under the [BSD 3-Clause license](LICENSE). To cite it, use GitHub's *Cite this repository* button (generated from [`CITATION.cff`](CITATION.cff)) and please also cite the original Kalibr papers listed below.
+This repository is released under the [BSD 3-Clause license](LICENSE); attribution of the upstream Kalibr code it is derived from is in [NOTICE](NOTICE). To cite it, use GitHub's *Cite this repository* button (generated from [`CITATION.cff`](CITATION.cff)) and please also cite the original Kalibr papers listed below.
 
 This work builds directly on **Kalibr** by the Autonomous Systems Lab, ETH Zurich ([ethz-asl/kalibr](https://github.com/ethz-asl/kalibr)), distributed under the BSD 3-Clause license; the upstream sources and their license are kept in [`kalibr-master/`](kalibr-master/LICENSE). If you use this code in academic work, please cite the original Kalibr papers:
 
