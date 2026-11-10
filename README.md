@@ -105,7 +105,7 @@ The build produces `kalibr_cpp/build/kalibr_calibrate_cameras.exe`, `kalibr_cali
 
 At configure time `cmake/KalibrPatches.cmake` applies a few small, idempotent source fixes to `kalibr-master` that are only needed for current dependency versions (SuiteSparse 7, Boost ≥ 1.73, OpenCV 5, MinGW's 32-bit `long`, missing `random()`). They do not change any algorithm.
 
-To run the executables outside the MSYS2 shell, `<msys2>\ucrt64\bin` must be on `PATH` (the PowerShell scripts in `scripts/` add it automatically: `$env:MSYS2_ROOT` first, then `tools\msys64`, then `C:\msys64`). Run the executables with the same MSYS2 installation they were built with, otherwise mismatching DLLs make them exit silently.
+After linking, a post-build step copies all required runtime DLLs (GCC runtime, Boost, OpenCV, SuiteSparse, …) next to the executables, so `kalibr_cpp/build/` is self-contained: the tools run from PowerShell, cmd or any MSYS2 shell, independent of what is on `PATH`, and the folder can be copied to another Windows PC. Disable this with `-DKALIBR_BUNDLE_DLLS=OFF`.
 
 The CMake project is plain CMake and should also build on Linux/macOS with the same dependencies installed from the system package manager (e.g. `libboost-all-dev libeigen3-dev libsuitesparse-dev libopencv-dev libyaml-cpp-dev`); only the Windows/MSYS2 path has been tested.
 
