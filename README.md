@@ -86,7 +86,7 @@ Not needed: ROS, catkin, Python, NumPy, wxPython, Docker, WSL or Ubuntu.
 ### Install MSYS2 and the dependencies
 
 1. Install MSYS2 from <https://www.msys2.org> (default location `C:\msys64`).  
-   *Alternatively* extract the MSYS2 base archive into `tools\msys64` inside this repository to keep a private toolchain that does not touch any system MSYS2 — the scripts look in `tools\msys64` first, then `C:\msys64` (or set `MSYS2_ROOT`).
+   *Alternatively* extract the MSYS2 base archive into `tools\msys64` inside this repository to keep a private toolchain that does not touch any system MSYS2; then run the commands below in `tools\msys64\usr\bin\bash.exe` (with `MSYSTEM=UCRT64` set) instead of the MSYS2 UCRT64 shortcut.
 2. Open the **MSYS2 UCRT64** shell and run:
 
 ```bash
