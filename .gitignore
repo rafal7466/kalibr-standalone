@@ -1,0 +1,18 @@
+# build output
+kalibr_cpp/build/
+build/
+*.log
+!results/**/log.txt
+
+# datasets and toolchain are downloaded locally (see README)
+dataset/
+tools/
+*.zip
+*.exe
+
+# OS / editor noise
+.DS_Store
+__MACOSX/
+Thumbs.db
+.vscode/
+.idea/

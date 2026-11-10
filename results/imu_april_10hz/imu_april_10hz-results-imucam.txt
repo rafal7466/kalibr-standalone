@@ -1,0 +1,67 @@
+Calibration results
+===================
+Normalized Residuals
+----------------------------
+Reprojection error (cam0):     mean 0.446216, median 0.392393, std: 0.280473
+Reprojection error (cam1):     mean 0.44806, median 0.391522, std: 0.284539
+Gyroscope error (imu0):        mean 1.06945, median 0.962577, std: 0.599175
+Accelerometer error (imu0):    mean 1.38192, median 1.2147, std: 0.895329
+
+Residuals
+----------------------------
+Reprojection error (cam0) [px]:     mean 0.446216, median 0.392393, std: 0.280473
+Reprojection error (cam1) [px]:     mean 0.44806, median 0.391522, std: 0.284539
+Gyroscope error (imu0) [rad/s]:     mean 0.0025663, median 0.00230984, std: 0.0014378
+Accelerometer error (imu0) [m/s^2]: mean 0.0390867, median 0.034357, std: 0.0253237
+
+
+Transformation T_cam0_imu0 (imu0 to cam0, T_ci): 
+[[  0.01492975   0.99966144  -0.02131004   0.06899933]
+ [ -0.99988638   0.01497064   0.00176051  -0.01607691]
+ [  0.00207894   0.02128134   0.99977137  -0.00281164]
+ [  0.00000000   0.00000000   0.00000000   1.00000000]]
+
+cam0 to imu0 time: [s] (t_imu = t_cam + shift)
+3.746232596e-06
+
+Transformation T_cam1_imu0 (imu0 to cam1, T_ci): 
+[[  0.01278553   0.99972932  -0.01943763  -0.04093581]
+ [ -0.99979065   0.01309205   0.01572450  -0.01587042]
+ [  0.01597473   0.01923252   0.99968741  -0.00313250]
+ [  0.00000000   0.00000000   0.00000000   1.00000000]]
+
+cam1 to imu0 time: [s] (t_imu = t_cam + shift)
+2.532638107e-06
+
+IMU0:
+ ----------------------------
+  Model: calibrated
+  Update rate: 200
+  Accelerometer:
+    Noise density: 0.002 
+    Noise density (discrete): 0.02828427125 
+    Random walk: 0.003
+  Gyroscope:
+    Noise density: 0.00016968
+    Noise density (discrete): 0.002399637573 
+    Random walk: 1.9393e-05
+  T_ib (imu0 to imu0)
+    [[  1.00000000   0.00000000   0.00000000   0.00000000]
+     [  0.00000000   1.00000000   0.00000000   0.00000000]
+     [  0.00000000   0.00000000   1.00000000   0.00000000]
+     [  0.00000000   0.00000000   0.00000000   1.00000000]]
+  time offset with respect to IMU0: 0 [s]
+
+Gravity vector in target coords: [m/s^2]
+[-0.010291764 -9.5566091 -2.1998952]
+
+
+Target configuration
+====================
+
+  Type: aprilgrid
+  Tags: 
+    Rows: 6
+    Cols: 6
+    Size: 0.088 [m]
+    Spacing 0.0264 [m]

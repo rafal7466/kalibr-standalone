@@ -1,0 +1,36 @@
+# Minimal SuiteSparse finder (CHOLMOD + SPQR) that works on Linux, MSYS2 and vcpkg.
+# Defines SUITESPARSE_INCLUDE_DIRS, SUITESPARSE_LIBRARIES, SuiteSparseSimple_FOUND
+find_path(CHOLMOD_INCLUDE_DIR cholmod.h PATH_SUFFIXES suitesparse SuiteSparse)
+find_path(SPQR_INCLUDE_DIR SuiteSparseQR.hpp PATH_SUFFIXES suitesparse SuiteSparse)
+
+set(_ss_names spqr cholmod ccolamd camd colamd amd suitesparseconfig)
+set(SUITESPARSE_LIBRARIES "")
+foreach(n ${_ss_names})
+  find_library(SS_${n}_LIB NAMES ${n} lib${n})
+  if(SS_${n}_LIB)
+    list(APPEND SUITESPARSE_LIBRARIES ${SS_${n}_LIB})
+  elseif(NOT n STREQUAL "ccolamd" AND NOT n STREQUAL "camd")
+    message(FATAL_ERROR "SuiteSparse library ${n} not found")
+  endif()
+endforeach()
+
+# metis is optional (needed by some static builds)
+find_library(SS_metis_LIB NAMES metis)
+if(SS_metis_LIB)
+  list(APPEND SUITESPARSE_LIBRARIES ${SS_metis_LIB})
+endif()
+
+find_package(LAPACK QUIET)
+find_package(BLAS QUIET)
+if(LAPACK_FOUND)
+  list(APPEND SUITESPARSE_LIBRARIES ${LAPACK_LIBRARIES})
+endif()
+if(BLAS_FOUND)
+  list(APPEND SUITESPARSE_LIBRARIES ${BLAS_LIBRARIES})
+endif()
+
+set(SUITESPARSE_INCLUDE_DIRS ${CHOLMOD_INCLUDE_DIR} ${SPQR_INCLUDE_DIR})
+include(FindPackageHandleStandardArgs)
+find_package_handle_standard_args(SuiteSparseSimple DEFAULT_MSG CHOLMOD_INCLUDE_DIR SPQR_INCLUDE_DIR)
+message(STATUS "SuiteSparse include: ${SUITESPARSE_INCLUDE_DIRS}")
+message(STATUS "SuiteSparse libs   : ${SUITESPARSE_LIBRARIES}")
