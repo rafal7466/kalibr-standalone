@@ -1,8 +1,10 @@
 # kalibr-standalone
 
+[![License: BSD-3-Clause](https://img.shields.io/badge/license-BSD--3--Clause-blue.svg)](LICENSE) [![Release](https://img.shields.io/github/v/release/rafal7466/kalibr-standalone)](https://github.com/rafal7466/kalibr-standalone/releases/latest) ![Platform](https://img.shields.io/badge/platform-Windows%2010%2F11-informational) ![ROS](https://img.shields.io/badge/ROS-not%20required-success)
+
 **[Kalibr](https://github.com/ethz-asl/kalibr) camera and camera–IMU calibration as a standalone C++ toolkit — no ROS, no Python, no Ubuntu.**
 
-Kalibr is the de-facto standard for multi-camera and visual-inertial calibration, but it ships as a ROS/catkin package with a Python front-end, which in practice means an Ubuntu machine (or Docker) with a matching ROS distribution. This repository ports the Python front-end of the two main tools to C++ and builds Kalibr's C++ core libraries with plain CMake, so the whole pipeline runs as native executables — tested on **Windows 10/11 with MSYS2 (UCRT64, GCC)**.
+Kalibr is the de-facto standard for multi-camera and visual-inertial calibration, but it ships as a ROS/catkin package with a Python front-end, which in practice means an Ubuntu machine (or Docker) with a matching ROS distribution — and ROS 1, which Kalibr depends on, reached end-of-life in May 2025. This repository ports the Python front-end of the two main tools to C++ and builds Kalibr's C++ core libraries with plain CMake, so the whole pipeline runs as native executables — tested on **Windows 10/11 with MSYS2 (UCRT64, GCC)**.
 
 | Original Kalibr tool | This repo | What it estimates |
 |---|---|---|
@@ -12,10 +14,20 @@ Kalibr is the de-facto standard for multi-camera and visual-inertial calibration
 
 Headline result on the EuRoC calibration sequences: focal lengths within **0.1 px (0.02 %)** of the official EuRoC calibration, stereo baseline within **0.47 mm / 0.09°**, reprojection error **≈ 0.3 px**. Full numbers are [below](#results-on-euroc).
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/images/accuracy_vs_euroc_dark.png">
+  <img alt="Accuracy of kalibr-standalone versus the official EuRoC calibration: camera intrinsics differ by about 0.1 px in focal length and 0.4 to 1.5 px in principal point; stereo extrinsics differ by 0.087 degrees and 0.47 mm; camera-IMU extrinsics by 0.28 to 0.36 degrees and 7.7 to 8.0 mm." src="docs/images/accuracy_vs_euroc_light.png">
+</picture>
+
+### Download and run (no build needed)
+
+Prebuilt Windows x64 binaries are attached to every [release](https://github.com/rafal7466/kalibr-standalone/releases/latest): download `kalibr-standalone-<version>-win64.zip`, extract it, put the data in `dataset/` (see [Dataset](#dataset)) and run the PowerShell scripts from the [Usage](#usage) section. All required DLLs are included — no MSYS2, ROS or Python installation is needed.
+
 ---
 
 ## Contents
 
+- [Download and run (no build needed)](#download-and-run-no-build-needed)
 - [Repository layout](#repository-layout)
 - [Dependencies](#dependencies)
 - [Build](#build)
@@ -46,6 +58,7 @@ kalibr-standalone/
 │   ├── run_cam_calib.ps1       # camera calibration on an EuRoC sequence
 │   ├── run_imu_calib.ps1       # camera-IMU calibration on an EuRoC sequence
 │   └── compare_euroc.ps1       # comparison with the EuRoC reference
+├── docs/images/               # README figures (scripts/make_readme_figure.py)
 ├── reference/                  # official EuRoC calibration (cam0/cam1 sensor.yaml)
 └── results/                    # outputs of all runs + comparison reports (report_*.md)
 ```
@@ -253,6 +266,8 @@ Residuals: reprojection 0.44 px (mean), gyroscope 0.0026 rad/s, accelerometer 0.
 - The order in which views are processed is randomized with a fixed `--seed` (default 0), making runs reproducible.
 
 ## Acknowledgements and license
+
+This repository is released under the [BSD 3-Clause license](LICENSE). To cite it, use GitHub's *Cite this repository* button (generated from [`CITATION.cff`](CITATION.cff)) and please also cite the original Kalibr papers listed below.
 
 This work builds directly on **Kalibr** by the Autonomous Systems Lab, ETH Zurich ([ethz-asl/kalibr](https://github.com/ethz-asl/kalibr)), distributed under the BSD 3-Clause license; the upstream sources and their license are kept in [`kalibr-master/`](kalibr-master/LICENSE). If you use this code in academic work, please cite the original Kalibr papers:
 
