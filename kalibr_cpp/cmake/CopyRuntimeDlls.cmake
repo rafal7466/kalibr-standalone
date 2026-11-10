@@ -22,11 +22,28 @@ file(GET_RUNTIME_DEPENDENCIES
   EXECUTABLES "${EXE}"
   RESOLVED_DEPENDENCIES_VAR deps
   UNRESOLVED_DEPENDENCIES_VAR unresolved
+  CONFLICTING_DEPENDENCIES_PREFIX conflict
   DIRECTORIES ${SEARCH_DIRS}
   PRE_EXCLUDE_REGEXES "^[Aa][Pp][Ii]-[Mm][Ss]-.*" "^[Ee][Xx][Tt]-[Mm][Ss]-.*"
   POST_EXCLUDE_REGEXES ".*[/\\\\][Ww][Ii][Nn][Dd][Oo][Ww][Ss][/\\\\].*")
 
 get_filename_component(dst "${EXE}" DIRECTORY)
+
+# A DLL found both next to the .exe (copied by an earlier build) and in the
+# toolchain differs after a package update: always take the toolchain copy.
+foreach(name IN LISTS conflict_FILENAMES)
+  set(pick "")
+  foreach(p IN LISTS conflict_${name})
+    get_filename_component(pdir "${p}" DIRECTORY)
+    if(NOT pdir STREQUAL dst AND NOT pick)
+      set(pick "${p}")
+    endif()
+  endforeach()
+  if(pick)
+    list(APPEND deps "${pick}")
+  endif()
+endforeach()
+
 set(n 0)
 foreach(d IN LISTS deps)
   file(COPY "${d}" DESTINATION "${dst}")
